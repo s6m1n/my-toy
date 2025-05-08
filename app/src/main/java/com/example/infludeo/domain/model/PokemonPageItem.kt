@@ -1,0 +1,7 @@
+package com.example.infludeo.domain.model
+
+data class PokemonPageItem(
+    val id: Long,
+    val name: String?,
+    val imageUrl: String,
+)

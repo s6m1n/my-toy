@@ -1,4 +1,4 @@
-package com.example.infludeo.ui.theme
+package com.example.infludeo.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

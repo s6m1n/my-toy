@@ -1,4 +1,4 @@
-package com.example.infludeo.ui.theme
+package com.example.infludeo.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

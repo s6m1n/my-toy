@@ -7,4 +7,6 @@
     <string name="top_bar_title_favorite">Favorite</string>
     <string name="top_bar_title_detail">Detail</string>
     <string name="top_bar_title_favorite_detail">Favorite Detail</string>
+
+    <string name="pokemon_image_description">포켓몬 이미지</string>
 </resources>

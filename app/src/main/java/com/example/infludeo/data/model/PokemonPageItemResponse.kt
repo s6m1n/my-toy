@@ -25,4 +25,4 @@ private fun String.extractId(): Long =
         .last()
         .toLong()
 
-private fun Long.toImageUrl() = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$this.png"
+fun Long.toImageUrl() = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$this.png"

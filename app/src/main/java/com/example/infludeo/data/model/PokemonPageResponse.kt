@@ -14,8 +14,12 @@ data class PokemonPageResponse(
 
 fun PokemonPageResponse.toDomain() =
     PokemonPage(
-        count = count,
-        next = next,
-        previous = previous,
+        nextOffset = next?.extractNextOffset(),
         pokemonPageItems = results.map { it.toDomain() },
     )
+
+private fun String.extractNextOffset(): Int? {
+    val regex = Regex("""offset=(\d+)""")
+    val match = regex.find(this)
+    return match?.groupValues?.get(1)?.toIntOrNull()
+}

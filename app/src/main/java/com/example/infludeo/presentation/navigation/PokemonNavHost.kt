@@ -5,34 +5,50 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.navigation
+import com.example.infludeo.presentation.PokemonAppState
+import com.example.infludeo.presentation.detail.PokemonDetailScreen
+import com.example.infludeo.presentation.detail.PokemonDetailViewModel
 import com.example.infludeo.presentation.favorite.PokemonFavoriteScreen
 import com.example.infludeo.presentation.list.PokemonListScreen
 
 @Composable
 fun PokemonNavHost(
-    navController: NavHostController,
+    appState: PokemonAppState,
     padding: PaddingValues,
 ) {
     NavHost(
-        navController = navController,
+        navController = appState.navController,
         startDestination = BottomNavTab.List.route,
         modifier =
             Modifier
                 .fillMaxSize()
                 .padding(padding),
     ) {
-        composable(
+        navigation(
             route = BottomNavTab.List.route,
+            startDestination = NavScreen.List.route,
         ) {
-            PokemonListScreen()
+            composable(NavScreen.List.route) {
+                PokemonListScreen()
+            }
+            composable(
+                NavScreen.Detail.route,
+            ) { }
         }
-        composable(
+        navigation(
             route = BottomNavTab.Favorite.route,
+            startDestination = NavScreen.Favorite.route,
         ) {
-            PokemonFavoriteScreen()
+            composable(NavScreen.Favorite.route) {
+                PokemonFavoriteScreen()
+            }
+            composable(NavScreen.FavoriteDetail.route) { }
         }
     }
 }

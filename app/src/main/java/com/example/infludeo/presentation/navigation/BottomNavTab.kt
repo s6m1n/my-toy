@@ -6,9 +6,20 @@ import com.example.infludeo.R
 
 enum class BottomNavTab(
     val route: String,
+    val screen: NavScreen,
     @StringRes val label: Int,
     @DrawableRes val icon: Int,
 ) {
-    List("pokemon_main", R.string.list, R.drawable.icon_list),
-    Favorite("pokemon_favorite", R.string.favorite, R.drawable.icon_heart),
+    List(
+        route = "pokemon_list_graph",
+        screen = NavScreen.List,
+        label = R.string.bottom_nav_label_list,
+        icon = R.drawable.icon_list,
+    ),
+    Favorite(
+        route = "pokemon_favorite_graph",
+        screen = NavScreen.Favorite,
+        label = R.string.bottom_nav_label_favorite,
+        icon = R.drawable.icon_heart,
+    ),
 }

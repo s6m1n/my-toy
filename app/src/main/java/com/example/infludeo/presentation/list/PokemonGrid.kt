@@ -9,6 +9,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -20,6 +24,10 @@ fun PokemonGrid(
     onItemClicked: (Long) -> Unit,
 ) {
     val gridState: LazyGridState = rememberLazyGridState()
+    val isBottomReached by gridState.rememberIsBottomReached()
+    if (isBottomReached) {
+        onScrollNewPage()
+    }
     LazyVerticalGrid(
         state = gridState,
         columns = GridCells.Fixed(3),
@@ -35,3 +43,17 @@ fun PokemonGrid(
         }
     }
 }
+
+@Composable
+private fun LazyGridState.rememberIsBottomReached(): State<Boolean> =
+    remember(this) {
+        derivedStateOf {
+            if (layoutInfo.totalItemsCount == 0) {
+                return@derivedStateOf false
+            } else {
+                val lastItem =
+                    layoutInfo.visibleItemsInfo.lastOrNull() ?: return@derivedStateOf false
+                return@derivedStateOf (lastItem.index == layoutInfo.totalItemsCount - 1)
+            }
+        }
+    }

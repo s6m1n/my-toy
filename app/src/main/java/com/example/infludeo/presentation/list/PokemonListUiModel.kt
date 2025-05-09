@@ -8,6 +8,17 @@ data class PokemonListUiModel(
     val pokemons: List<PokemonPageItem>,
 ) {
     val hasNextPage: Boolean get() = nextOffset != null
+
+    fun mergeWith(newPokemonListUiModel: PokemonListUiModel): PokemonListUiModel {
+        return PokemonListUiModel(
+            nextOffset = newPokemonListUiModel.nextOffset,
+            pokemons = pokemons + newPokemonListUiModel.pokemons,
+        )
+    }
+
+    companion object {
+        val emptyPokemonListUiModel = PokemonListUiModel(0, emptyList())
+    }
 }
 
 fun PokemonPage.toUiModel() =

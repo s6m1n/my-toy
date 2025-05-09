@@ -15,9 +15,17 @@ fun PokemonListScreen(
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     when (uiState) {
-        is PokemonListUiState.Error -> { }
+        is PokemonListUiState.Error -> {
+            Text(stringResource(R.string.network_connection_failed))
+        }
 
-        is PokemonListUiState.Success -> { }
+        is PokemonListUiState.Success -> {
+            PokemonGrid(
+                uiState.data,
+                onScrollNewPage = { viewModel.fetchNextPage() },
+                onItemClicked = { appState.moveToDetailScreen(it) },
+            )
+        }
 
         PokemonListUiState.Idle -> {}
     }

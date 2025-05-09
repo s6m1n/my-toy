@@ -35,7 +35,7 @@ fun PokemonNavHost(
             startDestination = NavScreen.List.route,
         ) {
             composable(NavScreen.List.route) {
-                PokemonListScreen()
+                PokemonListScreen(appState)
             }
             composable(
                 NavScreen.Detail.route,

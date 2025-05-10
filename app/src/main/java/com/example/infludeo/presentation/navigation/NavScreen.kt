@@ -10,24 +10,24 @@ sealed class NavScreen(
     @StringRes val title: Int,
 ) {
     data object List : NavScreen(
-        "pokemon_list",
+        route = "pokemon_list",
         title = R.string.top_bar_title_list,
     )
 
     data object Favorite : NavScreen(
-        "pokemon_favorite",
+        route = "pokemon_favorite",
         title = R.string.top_bar_title_favorite,
     )
 
     data object Detail : NavScreen(
-        "pokemon_detail/{$ARGUMENT_POKEMON_ID}",
+        route = "pokemon_detail/{$ARGUMENT_POKEMON_ID}",
         title = R.string.top_bar_title_detail,
     ) {
         fun make(id: Long) = "pokemon_detail/$id"
     }
 
     data object FavoriteDetail : NavScreen(
-        "pokemon_favorite_detail/{$ARGUMENT_POKEMON_ID}",
+        route = "pokemon_favorite_detail/{$ARGUMENT_POKEMON_ID}",
         title = R.string.top_bar_title_favorite_detail,
     ) {
         fun make(id: Long) = "pokemon_favorite_detail/$id"

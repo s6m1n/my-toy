@@ -12,8 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.infludeo.presentation.PokemonAppState
-import com.example.infludeo.presentation.detail.PokemonDetailScreen
-import com.example.infludeo.presentation.detail.PokemonDetailViewModel
+import com.example.infludeo.presentation.detail.ui.components.PokemonDetailScreen
+import com.example.infludeo.presentation.detail.viewmodel.PokemonDetailViewModel
 import com.example.infludeo.presentation.favorite.PokemonFavoriteScreen
 import com.example.infludeo.presentation.list.PokemonListScreen
 
@@ -39,7 +39,11 @@ fun PokemonNavHost(
             }
             composable(
                 NavScreen.Detail.route,
-            ) { }
+                arguments = listOf(navArgument(ARGUMENT_POKEMON_ID) { type = NavType.LongType }),
+            ) { backStackEntry ->
+                val viewModel: PokemonDetailViewModel = hiltViewModel(backStackEntry)
+                PokemonDetailScreen(viewModel)
+            }
         }
         navigation(
             route = BottomNavTab.Favorite.route,

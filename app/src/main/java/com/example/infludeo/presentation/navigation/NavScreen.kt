@@ -3,6 +3,8 @@ package com.example.infludeo.presentation.navigation
 import androidx.annotation.StringRes
 import com.example.infludeo.R
 
+const val ARGUMENT_POKEMON_ID = "id"
+
 sealed class NavScreen(
     val route: String,
     @StringRes val title: Int,
@@ -18,14 +20,14 @@ sealed class NavScreen(
     )
 
     data object Detail : NavScreen(
-        "pokemon_detail/{id}",
+        "pokemon_detail/{$ARGUMENT_POKEMON_ID}",
         title = R.string.top_bar_title_detail,
     ) {
         fun make(id: Long) = "pokemon_detail/$id"
     }
 
     data object FavoriteDetail : NavScreen(
-        "pokemon_favorite_detail/{id}",
+        "pokemon_favorite_detail/{$ARGUMENT_POKEMON_ID}",
         title = R.string.top_bar_title_favorite_detail,
     ) {
         fun make(id: Long) = "pokemon_favorite_detail/$id"

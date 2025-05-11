@@ -18,11 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.infludeo.R
 import com.example.infludeo.domain.model.PokemonDetail
-import com.example.infludeo.domain.model.PokemonType
 import com.example.infludeo.presentation.common.CoilImage
 
 @Composable
-fun PokemonDetailCard(detailUiModel: PokemonDetail) {
+fun PokemonDetailCard(pokemonDetail: PokemonDetail) {
     Card(
         modifier =
             Modifier
@@ -30,7 +29,7 @@ fun PokemonDetailCard(detailUiModel: PokemonDetail) {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             CoilImage(
-                imageUrl = detailUiModel.imageUrl,
+                imageUrl = pokemonDetail.imageUrl,
                 contentDescription = stringResource(id = R.string.pokemon_image_description),
                 modifier =
                     Modifier
@@ -39,7 +38,7 @@ fun PokemonDetailCard(detailUiModel: PokemonDetail) {
                         .align(Alignment.BottomCenter),
             )
             Text(
-                text = detailUiModel.name,
+                text = pokemonDetail.name,
                 maxLines = 1,
                 style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp),
                 modifier =
@@ -54,20 +53,5 @@ fun PokemonDetailCard(detailUiModel: PokemonDetail) {
 @Composable
 @Preview(showBackground = true)
 fun PokemonDetailCardPreview() {
-    PokemonDetailCard(
-        PokemonDetail(
-            id = 0L,
-            name = "piplup",
-            height = 4,
-            weight = 52,
-            types =
-                listOf(
-                    PokemonType(
-                        name = "water",
-                        url = "https://pokeapi.co/api/v2/type/11/",
-                    ),
-                ),
-            imageUrl = "",
-        ),
-    )
+    PokemonDetailCard(dummyPokemonDetail)
 }

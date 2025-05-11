@@ -1,11 +1,14 @@
 package com.example.infludeo.presentation.detail.ui.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
@@ -24,14 +27,18 @@ import com.example.infludeo.presentation.common.VerticalSpacerSmall
 import com.example.infludeo.presentation.ui.theme.Green
 
 @Composable
-fun PokemonDetailContent(detailUiModel: PokemonDetail) {
+fun PokemonDetailContent(
+    pokemonDetail: PokemonDetail,
+    onSaveFavoritePokemon: (Long) -> Unit,
+) {
     Column(
         modifier =
             Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(20.dp),
     ) {
-        PokemonDetailCard(detailUiModel)
+        PokemonDetailCard(pokemonDetail)
         VerticalSpacerMedium()
 
         PokemonDetailTitle(
@@ -40,7 +47,7 @@ fun PokemonDetailContent(detailUiModel: PokemonDetail) {
         )
         VerticalSpacerSmall()
         Row {
-            for (type in detailUiModel.types) {
+            for (type in pokemonDetail.types) {
                 PokemonTypeChip(type)
             }
         }
@@ -51,29 +58,42 @@ fun PokemonDetailContent(detailUiModel: PokemonDetail) {
             Modifier.align(Alignment.Start),
         )
         VerticalSpacerSmall()
-        PokemonInfoRow("키", detailUiModel.height.toHeightString())
+        PokemonInfoRow("키", pokemonDetail.height.toHeightString())
         VerticalSpacerSmall()
-        PokemonInfoRow("몸무게", detailUiModel.weight.toWeightString())
+        PokemonInfoRow("몸무게", pokemonDetail.weight.toWeightString())
         VerticalSpacerMedium()
 
-        Button(
-            onClick = {},
-            colors =
-                ButtonColors(
-                    containerColor = Green,
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.Gray,
-                    disabledContentColor = Color.Black,
-                ),
+        FavoriteButton(
+            { onSaveFavoritePokemon(pokemonDetail.id) },
+            Green,
+            R.string.pokemon_add_favorite,
+        )
+    }
+}
+
+@Composable
+private fun FavoriteButton(
+    onClicked: () -> Unit,
+    color: Color,
+    @StringRes id: Int,
+) {
+    Button(
+        onClick = { onClicked() },
+        colors =
+            ButtonColors(
+                containerColor = color,
+                contentColor = Color.White,
+                disabledContainerColor = Color.Gray,
+                disabledContentColor = Color.Black,
+            ),
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier =
+                Modifier
+                    .fillMaxWidth(),
         ) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier =
-                    Modifier
-                        .fillMaxWidth(),
-            ) {
-                Text(text = stringResource(R.string.pokemon_add_favorite))
-            }
+            Text(text = stringResource(id))
         }
     }
 }
@@ -86,23 +106,23 @@ private fun Int.toWeightString() = "%.1f".format(this * 0.1) + "kg"
 @Preview(showBackground = true)
 fun PokemonDetailPreview() {
     PokemonDetailContent(
-        PokemonDetail(
-            id = 0L,
-            name = "piplup",
-            height = 4,
-            weight = 52,
-            types =
-                listOf(
-                    PokemonType(
-                        name = "water",
-                        url = "",
-                    ),
-                    PokemonType(
-                        name = "fly",
-                        url = "",
-                    ),
-                ),
-            imageUrl = "",
-        ),
+        dummyPokemonDetail,
+        {},
     )
 }
+
+internal val dummyPokemonDetail =
+    PokemonDetail(
+        id = 0L,
+        name = "piplup",
+        height = 4,
+        weight = 52,
+        types =
+            listOf(
+                PokemonType(
+                    name = "water",
+                    url = "https://pokeapi.co/api/v2/type/11/",
+                ),
+            ),
+        imageUrl = "",
+    )

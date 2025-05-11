@@ -13,7 +13,7 @@ fun PokemonListScreen(
     appState: PokemonAppState,
     viewModel: PokemonListViewModel = hiltViewModel(),
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
+    val uiState = viewModel.pokemonListUiState.collectAsStateWithLifecycle().value
     when (uiState) {
         is PokemonListUiState.Error -> {
             Text(stringResource(R.string.network_connection_failed))

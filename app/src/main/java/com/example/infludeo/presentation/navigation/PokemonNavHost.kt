@@ -1,5 +1,7 @@
 package com.example.infludeo.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,6 +27,8 @@ fun PokemonNavHost(
     NavHost(
         navController = appState.navController,
         startDestination = BottomNavTab.List.route,
+        exitTransition = { ExitTransition.None },
+        enterTransition = { EnterTransition.None },
         modifier =
             Modifier
                 .fillMaxSize()
@@ -50,7 +54,7 @@ fun PokemonNavHost(
             startDestination = NavScreen.Favorite.route,
         ) {
             composable(NavScreen.Favorite.route) {
-                PokemonFavoriteScreen()
+                PokemonFavoriteScreen(appState)
             }
             composable(NavScreen.FavoriteDetail.route) { }
         }

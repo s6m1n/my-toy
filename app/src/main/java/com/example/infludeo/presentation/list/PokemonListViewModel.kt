@@ -2,6 +2,7 @@ package com.example.infludeo.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.infludeo.domain.model.PokemonDetail
 import com.example.infludeo.domain.repository.PokemonRepository
 import com.example.infludeo.presentation.list.PokemonListUiModel.Companion.emptyPokemonListUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,13 +20,34 @@ class PokemonListViewModel
     constructor(
         private val pokemonRepository: PokemonRepository,
     ) : ViewModel() {
-        private val _uiState = MutableStateFlow<PokemonListUiState>(PokemonListUiState.Idle)
-        val uiState = _uiState.asStateFlow()
+        private val _pokemonListUiState = MutableStateFlow<PokemonListUiState>(PokemonListUiState.Idle)
+        val pokemonListUiState = _pokemonListUiState.asStateFlow()
+
+        private val _favoriteListUiState = MutableStateFlow<List<PokemonDetail>>(emptyList())
+        val favoriteListUiState = _favoriteListUiState.asStateFlow()
 
         private var pageJobs: MutableMap<Int, Job> = mutableMapOf()
 
         init {
             fetchPokemons()
+            fetchFavoritePokemons()
+        }
+
+        fun fetchFavoritePokemons() {
+            viewModelScope.launch {
+                pokemonRepository.getAllFavoritePokemon().collect {
+                    _favoriteListUiState.emit(it)
+                }
+            }
+        }
+
+        fun fetchNextPage() {
+            viewModelScope.launch {
+                val state = pokemonListUiState.value
+                if (state is PokemonListUiState.Success && state.data.hasNextPage) {
+                    fetchAndMergeSearchResults(state.data)
+                }
+            }
         }
 
         private fun fetchPokemons() {
@@ -34,15 +56,6 @@ class PokemonListViewModel
                 viewModelScope.launch {
                     fetchAndMergeSearchResults(emptyPokemonListUiModel)
                 }
-        }
-
-        fun fetchNextPage() {
-            viewModelScope.launch {
-                val state = uiState.value
-                if (state is PokemonListUiState.Success && state.data.hasNextPage) {
-                    fetchAndMergeSearchResults(state.data)
-                }
-            }
         }
 
         private suspend fun fetchAndMergeSearchResults(pokemons: PokemonListUiModel) {
@@ -55,9 +68,9 @@ class PokemonListViewModel
                                 offset = offset,
                                 limit = LIMIT,
                             ).catch {
-                                _uiState.emit(PokemonListUiState.Error(it.message.orEmpty()))
+                                _pokemonListUiState.emit(PokemonListUiState.Error(it.message.orEmpty()))
                             }.collect {
-                                _uiState.emit(
+                                _pokemonListUiState.emit(
                                     PokemonListUiState.Success(pokemons.mergeWith(it.toUiModel())),
                                 )
                             }

@@ -1,5 +1,6 @@
 package com.example.infludeo.presentation.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -31,7 +33,9 @@ fun PokemonGrid(
     LazyVerticalGrid(
         state = gridState,
         columns = GridCells.Fixed(3),
-        modifier = modifier.fillMaxSize(),
+        modifier =
+            modifier.fillMaxSize()
+                .background(Color.White),
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),

@@ -8,28 +8,43 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.infludeo.presentation.navigation.BottomNavTab
 import com.example.infludeo.presentation.navigation.NavScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class PokemonAppState(
     val navController: NavHostController,
     val selectedTab: MutableState<BottomNavTab>,
 ) {
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
+    init {
+        navController.currentBackStackEntryFlow
+            .onEach { entry ->
+                BottomNavTab.entries.firstOrNull { tab ->
+                    entry.destination.hierarchy.any { it.route == tab.route }
+                }?.let { tab ->
+                    if (selectedTab.value != tab) selectedTab.value = tab
+                }
+            }
+            .launchIn(scope)
+    }
+
     val currentScreen: State<NavScreen?>
         @Composable get() {
             val route by currentRoute
             return remember(route) {
                 derivedStateOf { NavScreen.Detail.fromRoute(route) }
             }
-        }
-
-    val showBottomBar: Boolean
-        @Composable get() {
-            val tabs = BottomNavTab.entries.map { it.screen.route }
-            return tabs.contains(currentRoute.value)
         }
 
     private val currentRoute: State<String?>
@@ -40,20 +55,39 @@ class PokemonAppState(
             }
         }
 
-    fun onTabSelected(newTab: BottomNavTab) {
-        selectedTab.value = newTab
-        navController.navigate(newTab.route) {
-            popUpTo(navController.graph.startDestinationId) { saveState = true }
-            launchSingleTop = true
-            restoreState = true
+    val showBottomBar: Boolean
+        @Composable get() {
+            val tabs = BottomNavTab.entries.map { it.screen.route }
+            return tabs.contains(currentRoute.value)
         }
+
+    fun onTabSelected(newTab: BottomNavTab) {
+        if (selectedTab.value == newTab) return
+        navController.navigateBottomTab(newTab.route)
     }
 
     fun moveToDetailScreen(id: Long) {
-        navController.navigate(NavScreen.Detail.make(id)) {
+        navController.navigateSingleTop(NavScreen.Detail.make(id))
+    }
+
+    fun moveToFavoriteDetailScreen(id: Long) {
+        navController.navigateSingleTop(NavScreen.FavoriteDetail.make(id))
+    }
+
+    private fun NavHostController.navigateSingleTop(route: String) = navigate(route) { launchSingleTop = true }
+
+    private fun NavHostController.navigateBottomTab(route: String) {
+        if (isInGraph(route)) return
+        navigate(route) {
             launchSingleTop = true
+            restoreState = true
+            popUpTo(graph.findStartDestination().id) { saveState = true }
         }
     }
+
+    private fun NavHostController.isInGraph(route: String): Boolean =
+        currentBackStackEntry?.destination
+            ?.hierarchy?.any { it.route == route } == true
 }
 
 @Composable

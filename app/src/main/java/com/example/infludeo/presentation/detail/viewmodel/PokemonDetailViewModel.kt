@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,6 +36,9 @@ class PokemonDetailViewModel
         private val _deleteFavoriteEvent = MutableSharedFlow<DeleteResult>()
         val deleteFavoriteEvent = _deleteFavoriteEvent.asSharedFlow()
 
+        private val _errorEvent = MutableSharedFlow<Exception>()
+        val errorEvent = _errorEvent.asSharedFlow()
+
         init {
             val id = savedStateHandle.get<Long>(ARGUMENT_POKEMON_ID)
             if (id != null) {
@@ -44,15 +48,20 @@ class PokemonDetailViewModel
 
         private fun fetchPokemonDetail(id: Long) {
             viewModelScope.launch {
-                pokemonRepository.getPokemonDetail(id = id).collect {
-                    _uiState.emit(PokemonDetailUiState.Success(it))
-                }
+                pokemonRepository.getPokemonDetail(id = id)
+                    .catch {
+                        _errorEvent.emit(Exception(it))
+                    }.collect {
+                        _uiState.emit(PokemonDetailUiState.Success(it))
+                    }
             }
         }
 
         fun deleteFavoritePokemon(id: Long) {
             viewModelScope.launch {
-                pokemonRepository.deleteFavoritePokemon(id).collect {
+                pokemonRepository.deleteFavoritePokemon(id).catch {
+                    _errorEvent.emit(Exception(it))
+                }.collect {
                     _deleteFavoriteEvent.emit(it)
                 }
             }
@@ -68,10 +77,13 @@ class PokemonDetailViewModel
                             pokemon.imageUrl,
                             "pokemon_${pokemon.name}.png",
                         )
-                    file?.let {
-                        pokemonRepository.addFavoritePokemon(pokemon.copy(imagePath = it.absolutePath)).collect {
-                            _insertFavoriteEvent.emit(it)
-                        }
+                    file?.let { it ->
+                        pokemonRepository.addFavoritePokemon(pokemon.copy(imagePath = it.absolutePath))
+                            .catch {
+                                _errorEvent.emit(Exception(it))
+                            }.collect {
+                                _insertFavoriteEvent.emit(it)
+                            }
                     }
                 }
             }

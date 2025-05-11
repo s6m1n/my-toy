@@ -9,6 +9,8 @@ import com.example.infludeo.domain.model.InsertResult
 import com.example.infludeo.domain.model.PokemonDetail
 import com.example.infludeo.domain.model.PokemonPage
 import com.example.infludeo.domain.repository.PokemonRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -22,21 +24,25 @@ class PokemonDefaultRepository
         override suspend fun getPokemons(
             offset: Int,
             limit: Int,
-        ): Flow<PokemonPage> =
+        ): Flow<Result<PokemonPage>> =
             flow {
-                emit(pokemonApiService.getPokemons(offset = offset, limit = limit).toDomain())
+                emit(
+                    runCatching { pokemonApiService.getPokemons(offset = offset, limit = limit).toDomain() },
+                )
             }
 
         override suspend fun getPokemonDetail(id: Long): Flow<PokemonDetail> =
             flow {
-                val cached = dao.getById(id)
-                cached?.let { emit(it.toDomain()) } ?: run {
-                    try {
-                        val remote = pokemonApiService.getPokemonDetail(id.toString())
-                        emit(remote.toDomain())
-                    } catch (e: Exception) {
-                        // 예외 처리
-                    }
+                coroutineScope {
+                    val localDeferred = async { dao.getById(id) }
+                    val remoteDeferred = async { runCatching { pokemonApiService.getPokemonDetail(id.toString()) } }
+                    localDeferred.await()
+                        ?.let { emit(it.toDomain()) }
+                        ?: run {
+                            remoteDeferred.await()
+                                .onFailure { throw it }
+                                .onSuccess { emit(it.toDomain()) }
+                        }
                 }
             }
 

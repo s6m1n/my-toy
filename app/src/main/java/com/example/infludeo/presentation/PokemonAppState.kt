@@ -66,6 +66,10 @@ class PokemonAppState(
         navController.navigateBottomTab(newTab.route)
     }
 
+    fun moveToBackStack() {
+        navController.popBackStack()
+    }
+
     fun moveToDetailScreen(id: Long) {
         navController.navigateSingleTop(NavScreen.Detail.make(id))
     }

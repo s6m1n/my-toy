@@ -47,7 +47,7 @@ fun PokemonNavHost(
                 arguments = listOf(navArgument(ARGUMENT_POKEMON_ID) { type = NavType.LongType }),
             ) { backStackEntry ->
                 val viewModel: PokemonDetailViewModel = hiltViewModel(backStackEntry)
-                PokemonDetailScreen(viewModel)
+                PokemonDetailScreen(appState, viewModel)
             }
         }
         navigation(

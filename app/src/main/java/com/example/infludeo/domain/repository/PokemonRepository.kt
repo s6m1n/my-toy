@@ -10,7 +10,7 @@ interface PokemonRepository {
     suspend fun getPokemons(
         offset: Int,
         limit: Int,
-    ): Flow<PokemonPage>
+    ): Flow<Result<PokemonPage>>
 
     suspend fun getPokemonDetail(id: Long): Flow<PokemonDetail>
 

@@ -3,15 +3,20 @@ package com.example.infludeo.presentation.detail.ui.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.infludeo.R
 import com.example.infludeo.domain.model.InsertResult
+import com.example.infludeo.presentation.PokemonAppState
 import com.example.infludeo.presentation.common.showToast
 import com.example.infludeo.presentation.detail.ui.PokemonDetailUiState
 import com.example.infludeo.presentation.detail.viewmodel.PokemonDetailViewModel
 
 @Composable
-fun PokemonDetailScreen(viewModel: PokemonDetailViewModel) {
+fun PokemonDetailScreen(
+    appState: PokemonAppState,
+    viewModel: PokemonDetailViewModel,
+    ) {
     val detailUiState = viewModel.uiState.collectAsStateWithLifecycle().value
     val context = LocalContext.current
 
@@ -25,6 +30,7 @@ fun PokemonDetailScreen(viewModel: PokemonDetailViewModel) {
             )
         }
     }
+
     LaunchedEffect(Unit) {
         viewModel.insertFavoriteEvent.collect { event ->
             val id =
@@ -34,6 +40,14 @@ fun PokemonDetailScreen(viewModel: PokemonDetailViewModel) {
                     InsertResult.Duplicated -> R.string.pokemon_duplicated
                 }
             showToast(id, context)
+        }
+    }
+
+    val string = stringResource(R.string.unexpected_error)
+    LaunchedEffect(Unit) {
+        viewModel.errorEvent.collect {
+            showToast(string, context)
+            appState.moveToBackStack()
         }
     }
 }

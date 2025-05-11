@@ -7,6 +7,7 @@ data class PokemonDetail(
     val weight: Int,
     val types: List<PokemonType>,
     val imageUrl: String,
+    val imagePath: String? = null,
 )
 
 data class PokemonType(

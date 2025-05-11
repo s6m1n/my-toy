@@ -17,6 +17,7 @@ import com.example.infludeo.presentation.PokemonAppState
 import com.example.infludeo.presentation.detail.ui.components.PokemonDetailScreen
 import com.example.infludeo.presentation.detail.viewmodel.PokemonDetailViewModel
 import com.example.infludeo.presentation.favorite.PokemonFavoriteScreen
+import com.example.infludeo.presentation.favoritedetail.PokemonFavoriteDetailScreen
 import com.example.infludeo.presentation.list.PokemonListScreen
 
 @Composable
@@ -56,7 +57,13 @@ fun PokemonNavHost(
             composable(NavScreen.Favorite.route) {
                 PokemonFavoriteScreen(appState)
             }
-            composable(NavScreen.FavoriteDetail.route) { }
+            composable(
+                NavScreen.FavoriteDetail.route,
+                arguments = listOf(navArgument(ARGUMENT_POKEMON_ID) { type = NavType.LongType }),
+            ) { backStackEntry ->
+                val viewModel: PokemonDetailViewModel = hiltViewModel(backStackEntry)
+                PokemonFavoriteDetailScreen(viewModel)
+            }
         }
     }
 }

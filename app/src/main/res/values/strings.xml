@@ -22,4 +22,12 @@
     <string name="pokemon_weight">키</string>
     <string name="pokemon_height">몸무게</string>
     <string name="pokemon_add_favorite">즐겨찾기 추가</string>
+    <string name="pokemon_delete_favorite">즐겨찾기 삭제</string>
+
+    # insert, delete 이벤트
+    <string name="pokemon_insert_success">즐겨찾기에 저장했습니다.</string>
+    <string name="pokemon_duplicated">이미 저장된 포켓몬입니다.</string>
+    <string name="pokemon_limit_reached">저장 가능한 수를 초과했습니다.</string>
+    <string name="pokemon_delete_success">즐겨찾기에서 제거했습니다.</string>
+    <string name="pokemon_delete_fail">이미 삭제된 포켓몬입니다.</string>
 </resources>

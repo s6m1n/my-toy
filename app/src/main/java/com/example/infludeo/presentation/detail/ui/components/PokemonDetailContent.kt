@@ -29,7 +29,7 @@ import com.example.infludeo.presentation.ui.theme.Green
 @Composable
 fun PokemonDetailContent(
     pokemonDetail: PokemonDetail,
-    onSaveFavoritePokemon: (Long) -> Unit,
+    onAddFavoritePokemon: (Long) -> Unit,
 ) {
     Column(
         modifier =
@@ -64,7 +64,7 @@ fun PokemonDetailContent(
         VerticalSpacerMedium()
 
         FavoriteButton(
-            { onSaveFavoritePokemon(pokemonDetail.id) },
+            { onAddFavoritePokemon(pokemonDetail.id) },
             Green,
             R.string.pokemon_add_favorite,
         )

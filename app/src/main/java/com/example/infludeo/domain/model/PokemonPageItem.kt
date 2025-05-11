@@ -4,4 +4,5 @@ data class PokemonPageItem(
     val id: Long,
     val name: String?,
     val imageUrl: String,
+    val imagePath: String? = null,
 )

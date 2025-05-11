@@ -16,7 +16,7 @@ import com.example.infludeo.presentation.detail.viewmodel.PokemonDetailViewModel
 fun PokemonDetailScreen(
     appState: PokemonAppState,
     viewModel: PokemonDetailViewModel,
-    ) {
+) {
     val detailUiState = viewModel.uiState.collectAsStateWithLifecycle().value
     val context = LocalContext.current
 

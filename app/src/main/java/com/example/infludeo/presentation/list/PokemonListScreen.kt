@@ -29,4 +29,7 @@ fun PokemonListScreen(
             showToast(string, context)
         }
     }
+    LaunchedEffect(Unit) {
+        viewModel.fetchFavoritePokemons()
+    }
 }

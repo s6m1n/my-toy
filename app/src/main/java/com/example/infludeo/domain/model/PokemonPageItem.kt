@@ -5,4 +5,5 @@ data class PokemonPageItem(
     val name: String?,
     val imageUrl: String,
     val imagePath: String? = null,
+    val isFavorite: Boolean = false,
 )

@@ -12,7 +12,7 @@ fun PokemonFavoriteScreen(
     appState: PokemonAppState,
     viewModel: PokemonListViewModel = hiltViewModel(),
 ) {
-    val favoriteUiState = viewModel.favoriteListUiState.collectAsStateWithLifecycle().value
+    val favoriteUiState = viewModel.favoritePokemonList.collectAsStateWithLifecycle().value
     LaunchedEffect(Unit) {
         viewModel.fetchFavoritePokemons()
     }

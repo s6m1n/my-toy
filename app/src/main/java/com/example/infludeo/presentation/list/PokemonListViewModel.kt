@@ -21,11 +21,12 @@ class PokemonListViewModel
     constructor(
         private val pokemonRepository: PokemonRepository,
     ) : ViewModel() {
-        private val _pokemonList = MutableStateFlow(PokemonListUiModel(0, emptyList()))
+        private val _pokemonList = MutableStateFlow(PokemonListUiModel(0, emptyList())) // 서버에서 가져온 원형
         val pokemonList = _pokemonList.asStateFlow()
 
-        private val _favoriteListUiState = MutableStateFlow<List<PokemonDetail>>(emptyList())
-        val favoriteListUiState = _favoriteListUiState.asStateFlow()
+        private val _favoritePokemonList =
+            MutableStateFlow<List<PokemonDetail>>(emptyList()) // room 에서 가져온 원형
+        val favoritePokemonList = _favoritePokemonList.asStateFlow()
 
         private var pageJobs: MutableMap<Int, Job> = mutableMapOf()
 
@@ -33,14 +34,21 @@ class PokemonListViewModel
         val errorEvent = _errorEvent.asSharedFlow()
 
         init {
-            fetchPokemons()
             fetchFavoritePokemons()
+            fetchPokemons()
         }
 
         fun fetchFavoritePokemons() {
             viewModelScope.launch {
-                pokemonRepository.getAllFavoritePokemon().collect {
-                    _favoriteListUiState.emit(it)
+                pokemonRepository.getAllFavoritePokemon().collect { favoritePokemonDetailList ->
+
+                    val favoriteIds = favoritePokemonDetailList.map { it.id }.toSet()
+                    _favoritePokemonList.emit(favoritePokemonDetailList)
+
+                    val currentList = _pokemonList.value.pokemons
+                    val updatedList = currentList.map { it.copy(isFavorite = it.id in favoriteIds) }
+
+                    _pokemonList.value = _pokemonList.value.copy(pokemons = updatedList)
                 }
             }
         }
@@ -81,9 +89,16 @@ class PokemonListViewModel
                     offset = offset,
                     limit = LIMIT,
                 ).collect { result ->
-                    result.onSuccess {
+                    result.onSuccess { nextPagePokemon ->
+                        val favoriteIds = _favoritePokemonList.value.map { it.id }.toSet()
+                        val newList = nextPagePokemon.pokemonPageItems.map { it.copy(isFavorite = it.id in favoriteIds) }
+                        val newModel =
+                            nextPagePokemon.copy(
+                                pokemonPageItems = newList,
+                            )
+
                         _pokemonList.emit(
-                            pokemons.mergeWith(it.toUiModel()),
+                            pokemons.mergeWith(newModel.toUiModel()),
                         )
                     }.onFailure {
                         _errorEvent.emit(Exception(it))

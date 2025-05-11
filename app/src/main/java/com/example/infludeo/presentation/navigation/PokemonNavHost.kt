@@ -14,11 +14,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.infludeo.presentation.PokemonAppState
-import com.example.infludeo.presentation.detail.ui.components.PokemonDetailScreen
+import com.example.infludeo.presentation.detail.ui.PokemonDetailScreen
 import com.example.infludeo.presentation.detail.viewmodel.PokemonDetailViewModel
-import com.example.infludeo.presentation.favorite.PokemonFavoriteScreen
-import com.example.infludeo.presentation.favoritedetail.PokemonFavoriteDetailScreen
-import com.example.infludeo.presentation.list.PokemonListScreen
+import com.example.infludeo.presentation.favorite.ui.PokemonFavoriteScreen
+import com.example.infludeo.presentation.favoritedetail.ui.PokemonFavoriteDetailScreen
+import com.example.infludeo.presentation.list.ui.PokemonListScreen
 
 @Composable
 fun PokemonNavHost(

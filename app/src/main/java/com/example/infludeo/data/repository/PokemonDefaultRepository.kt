@@ -1,9 +1,10 @@
 package com.example.infludeo.data.repository
 
 import com.example.infludeo.data.local.PokemonDao
-import com.example.infludeo.data.model.toDomain
-import com.example.infludeo.data.model.toEntity
+import com.example.infludeo.data.local.model.toDomain
+import com.example.infludeo.data.local.model.toEntity
 import com.example.infludeo.data.remote.PokemonApiService
+import com.example.infludeo.data.remote.model.toDomain
 import com.example.infludeo.domain.model.DeleteResult
 import com.example.infludeo.domain.model.InsertResult
 import com.example.infludeo.domain.model.PokemonDetail

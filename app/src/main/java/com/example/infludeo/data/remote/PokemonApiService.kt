@@ -1,7 +1,7 @@
 package com.example.infludeo.data.remote
 
-import com.example.infludeo.data.model.PokemonDetailResponse
-import com.example.infludeo.data.model.PokemonPageResponse
+import com.example.infludeo.data.remote.model.PokemonDetailResponse
+import com.example.infludeo.data.remote.model.PokemonPageResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

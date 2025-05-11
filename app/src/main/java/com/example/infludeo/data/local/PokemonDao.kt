@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.infludeo.data.model.PokemonEntity
+import com.example.infludeo.data.local.model.PokemonEntity
 import com.example.infludeo.domain.model.DeleteResult
 import com.example.infludeo.domain.model.InsertResult
 

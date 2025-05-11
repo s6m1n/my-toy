@@ -2,7 +2,7 @@ package com.example.infludeo.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.infludeo.data.model.PokemonEntity
+import com.example.infludeo.data.local.model.PokemonEntity
 
 @Database(
     entities = [PokemonEntity::class],

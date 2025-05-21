@@ -16,6 +16,7 @@ import androidx.navigation.navigation
 import com.example.infludeo.presentation.PokemonAppState
 import com.example.infludeo.presentation.detail.ui.PokemonDetailScreen
 import com.example.infludeo.presentation.detail.viewmodel.PokemonDetailViewModel
+import com.example.infludeo.presentation.example.ChartScreen
 import com.example.infludeo.presentation.favorite.ui.PokemonFavoriteScreen
 import com.example.infludeo.presentation.favoritedetail.ui.PokemonFavoriteDetailScreen
 import com.example.infludeo.presentation.list.ui.PokemonListScreen
@@ -63,6 +64,14 @@ fun PokemonNavHost(
             ) { backStackEntry ->
                 val viewModel: PokemonDetailViewModel = hiltViewModel(backStackEntry)
                 PokemonFavoriteDetailScreen(viewModel)
+            }
+        }
+        navigation(
+            route = BottomNavTab.Chart.route,
+            startDestination = NavScreen.Chart.route,
+        ) {
+            composable(NavScreen.Chart.route) {
+                ChartScreen(appState, padding)
             }
         }
     }

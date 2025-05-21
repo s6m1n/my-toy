@@ -6,12 +6,14 @@
     # BottomNav label
     <string name="bottom_nav_label_list">목록</string>
     <string name="bottom_nav_label_favorite">즐겨찾기</string>
+    <string name="bottom_nav_label_chart">차트</string>
 
     # TopBar title
     <string name="top_bar_title_list">List</string>
     <string name="top_bar_title_favorite">Favorite</string>
     <string name="top_bar_title_detail">Detail</string>
     <string name="top_bar_title_favorite_detail">Favorite Detail</string>
+    <string name="top_bar_title_chart">Chart</string>
 
     # List 화면
     <string name="pokemon_image_description">포켓몬 이미지</string>

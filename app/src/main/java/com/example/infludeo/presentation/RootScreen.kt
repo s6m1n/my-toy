@@ -39,7 +39,7 @@ private fun TopBar(appState: PokemonAppState) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         appState.currentScreen.value?.let { currentScreen ->
-            if (currentScreen != NavScreen.List && currentScreen != NavScreen.Favorite) {
+            if (currentScreen != NavScreen.List && currentScreen != NavScreen.Favorite && currentScreen != NavScreen.Chart) {
                 Icon(
                     painter = painterResource(R.drawable.icon_left_arrow),
                     contentDescription = stringResource(R.string.back_arrow),

@@ -14,6 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PokemonDefaultRepository
@@ -28,7 +29,9 @@ class PokemonDefaultRepository
         ): Flow<Result<PokemonPage>> =
             flow {
                 emit(
-                    runCatching { pokemonApiService.getPokemons(offset = offset, limit = limit).toDomain() },
+                    runCatching {
+                        pokemonApiService.getPokemons(offset = offset, limit = limit).toDomain()
+                    },
                 )
             }
 
@@ -36,7 +39,8 @@ class PokemonDefaultRepository
             flow {
                 coroutineScope {
                     val localDeferred = async { dao.getById(id) }
-                    val remoteDeferred = async { runCatching { pokemonApiService.getPokemonDetail(id.toString()) } }
+                    val remoteDeferred =
+                        async { runCatching { pokemonApiService.getPokemonDetail(id.toString()) } }
                     localDeferred.await()
                         ?.let { emit(it.toDomain()) }
                         ?: run {
@@ -47,10 +51,7 @@ class PokemonDefaultRepository
                 }
             }
 
-        override suspend fun getAllFavoritePokemon(): Flow<List<PokemonDetail>> =
-            flow {
-                emit(dao.getAll().map { it.toDomain() })
-            }
+        override suspend fun getAllFavoritePokemon(): Flow<List<PokemonDetail>> = dao.getAll().map { it.map { it.toDomain() } }
 
         override suspend fun addFavoritePokemon(pokemon: PokemonDetail): Flow<InsertResult> =
             flow {

@@ -7,11 +7,12 @@ import androidx.room.Query
 import com.example.infludeo.data.local.model.PokemonEntity
 import com.example.infludeo.domain.model.DeleteResult
 import com.example.infludeo.domain.model.InsertResult
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PokemonDao {
     @Query("SELECT * FROM pokemon")
-    suspend fun getAll(): List<PokemonEntity>
+    fun getAll(): Flow<List<PokemonEntity>>
 
     @Query("SELECT * FROM pokemon WHERE id = :pokemonId")
     suspend fun getById(pokemonId: Long): PokemonEntity?

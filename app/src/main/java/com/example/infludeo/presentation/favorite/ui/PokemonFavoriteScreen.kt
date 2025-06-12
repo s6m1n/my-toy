@@ -1,7 +1,6 @@
 package com.example.infludeo.presentation.favorite.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.infludeo.presentation.PokemonAppState
@@ -13,9 +12,6 @@ fun PokemonFavoriteScreen(
     viewModel: PokemonListViewModel = hiltViewModel(),
 ) {
     val favoriteUiState = viewModel.favoritePokemonList.collectAsStateWithLifecycle().value
-    LaunchedEffect(Unit) {
-        viewModel.fetchFavoritePokemons()
-    }
     PokemonFavoriteGrid(
         favoriteUiState,
         onItemClicked = { appState.moveToFavoriteDetailScreen(it) },

@@ -22,10 +22,16 @@ enum class BottomNavTab(
         label = R.string.bottom_nav_label_favorite,
         icon = R.drawable.icon_heart,
     ),
-    Chart(
-        route = "chart_graph",
-        screen = NavScreen.Chart,
-        label = R.string.bottom_nav_label_chart,
+    Socket(
+        route = "socket_graph",
+        screen = NavScreen.Socket,
+        label = R.string.bottom_nav_label_socket,
         icon = R.drawable.icon_chart,
+    ),
+    Service(
+        route = "service_graph",
+        screen = NavScreen.Service,
+        label = R.string.bottom_nav_label_service,
+        icon = R.drawable.icon_tools,
     ),
 }

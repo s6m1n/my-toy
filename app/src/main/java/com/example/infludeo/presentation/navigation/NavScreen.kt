@@ -9,9 +9,14 @@ sealed class NavScreen(
     val route: String,
     @StringRes val title: Int,
 ) {
-    data object Chart : NavScreen(
-        route = "chart",
-        title = R.string.top_bar_title_chart,
+    data object Service : NavScreen(
+        route = "service",
+        title = R.string.top_bar_title_service,
+    )
+
+    data object Socket : NavScreen(
+        route = "socket",
+        title = R.string.top_bar_title_socket,
     )
 
     data object List : NavScreen(
@@ -45,7 +50,8 @@ sealed class NavScreen(
             Favorite.route -> Favorite
             Detail.route -> Detail
             FavoriteDetail.route -> FavoriteDetail
-            Chart.route -> Chart
+            Socket.route -> Socket
+            Service.route -> Service
             else -> null
         }
     }

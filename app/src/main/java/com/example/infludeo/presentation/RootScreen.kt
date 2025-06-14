@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.infludeo.R
 import com.example.infludeo.presentation.navigation.BottomNavBar
-import com.example.infludeo.presentation.navigation.NavScreen
+import com.example.infludeo.presentation.navigation.BottomNavTab
 import com.example.infludeo.presentation.navigation.PokemonNavHost
 
 @Composable
@@ -39,7 +39,7 @@ private fun TopBar(appState: PokemonAppState) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         appState.currentScreen.value?.let { currentScreen ->
-            if (currentScreen != NavScreen.List && currentScreen != NavScreen.Favorite && currentScreen != NavScreen.Chart) {
+            if (!BottomNavTab.entries.map { it.screen }.contains(currentScreen)) {
                 Icon(
                     painter = painterResource(R.drawable.icon_left_arrow),
                     contentDescription = stringResource(R.string.back_arrow),

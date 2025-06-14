@@ -16,10 +16,11 @@ import androidx.navigation.navigation
 import com.example.infludeo.presentation.PokemonAppState
 import com.example.infludeo.presentation.detail.ui.PokemonDetailScreen
 import com.example.infludeo.presentation.detail.viewmodel.PokemonDetailViewModel
-import com.example.infludeo.presentation.example.ChartScreen
 import com.example.infludeo.presentation.favorite.ui.PokemonFavoriteScreen
 import com.example.infludeo.presentation.favoritedetail.ui.PokemonFavoriteDetailScreen
 import com.example.infludeo.presentation.list.ui.PokemonListScreen
+import com.example.infludeo.presentation.service.ServiceScreen
+import com.example.infludeo.presentation.socket.SocketScreen
 
 @Composable
 fun PokemonNavHost(
@@ -67,11 +68,19 @@ fun PokemonNavHost(
             }
         }
         navigation(
-            route = BottomNavTab.Chart.route,
-            startDestination = NavScreen.Chart.route,
+            route = BottomNavTab.Socket.route,
+            startDestination = NavScreen.Socket.route,
         ) {
-            composable(NavScreen.Chart.route) {
-                ChartScreen(appState, padding)
+            composable(NavScreen.Socket.route) {
+                SocketScreen(appState, padding)
+            }
+        }
+        navigation(
+            route = BottomNavTab.Service.route,
+            startDestination = NavScreen.Service.route,
+        ) {
+            composable(NavScreen.Service.route) {
+                ServiceScreen(appState, padding)
             }
         }
     }

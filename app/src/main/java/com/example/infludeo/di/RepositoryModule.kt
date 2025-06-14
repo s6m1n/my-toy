@@ -1,6 +1,8 @@
 package com.example.infludeo.di
 
+import com.example.infludeo.data.repository.EchoRepositoryImpl
 import com.example.infludeo.data.repository.PokemonDefaultRepository
+import com.example.infludeo.domain.repository.EchoRepository
 import com.example.infludeo.domain.repository.PokemonRepository
 import dagger.Binds
 import dagger.Module
@@ -12,4 +14,7 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class RepositoryModule {
     @Binds
     abstract fun bindPokemonRepository(repositoryImpl: PokemonDefaultRepository): PokemonRepository
+
+    @Binds
+    abstract fun bindEchoRepository(repositoryImpl: EchoRepositoryImpl): EchoRepository
 }

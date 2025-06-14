@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.infludeo.domain.model.PokemonDetail
 import com.example.infludeo.presentation.common.ui.LocalImage
@@ -23,6 +24,7 @@ import com.example.infludeo.presentation.detail.ui.dummyPokemonDetail
 fun PokemonFavoriteGridItem(
     item: PokemonDetail,
     modifier: Modifier = Modifier,
+    size: Dp = 100.dp,
     onItemClicked: (Long) -> Unit,
 ) {
     Card(
@@ -37,7 +39,7 @@ fun PokemonFavoriteGridItem(
                     bitmap = getBitmapFromFile(path),
                     modifier =
                         Modifier
-                            .size(width = 100.dp, height = 100.dp)
+                            .size(width = size, height = size)
                             .padding(bottom = 24.dp)
                             .align(Alignment.BottomCenter),
                 )

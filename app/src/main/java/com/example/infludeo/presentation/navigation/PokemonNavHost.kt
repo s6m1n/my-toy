@@ -80,7 +80,7 @@ fun PokemonNavHost(
             startDestination = NavScreen.Service.route,
         ) {
             composable(NavScreen.Service.route) {
-                ServiceScreen(appState, padding)
+                ServiceScreen(appState)
             }
         }
     }

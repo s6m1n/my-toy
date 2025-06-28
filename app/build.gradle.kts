@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.infludeo"
+    namespace = "com.example.bingtoy"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.infludeo"
+        applicationId = "com.example.bingtoy"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

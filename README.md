@@ -3,7 +3,7 @@
 <br>
 
 ## 💡 학습 테스트
-> 궁금한 건 직접 테스트 해보기
+> 궁금한 건 직접 테스트 해보자! [바로가기](https://github.com/s6m1n/my-toy/tree/main/app/src/test/java/com/example/bingtoy/study)
 
 <br>
 

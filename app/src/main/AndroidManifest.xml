@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- 인터넷 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 전화 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
+    <!-- 알람 -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 포그라운드 서비스 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- 배터리 최적화 무시 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <!-- 만보기 -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <!-- 알림 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
     <application
         android:name=".InfludeoApplication"
         android:allowBackup="true"
@@ -17,12 +35,33 @@
             android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Infludeo">
+            android:theme="@style/Theme.Infludeo"
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.lock.LockActivity"
+            android:theme="@style/TransparentActivity"
+            android:excludeFromRecents="true"
+            android:showWhenLocked="true"
+            android:windowSoftInputMode="stateHidden|adjustNothing" />
+        <service
+            android:name=".presentation.lock.LockScreenService"
+            android:foregroundServiceType="phoneCall"
+            android:exported="true" />
+        <service
+            android:name=".presentation.stepcounter.StepCounterService"
+            android:foregroundServiceType="phoneCall"
+            android:exported="true" />
+        <receiver
+            android:name=".presentation.lock.MyBroadcastReceiver"
+            android:exported="true">
+        </receiver>
+        <receiver android:name=".presentation.lock.NotificationDeleteReceiver" />
+        <receiver android:name=".presentation.lock.NotificationReshowReceiver" />
     </application>
 
 </manifest>

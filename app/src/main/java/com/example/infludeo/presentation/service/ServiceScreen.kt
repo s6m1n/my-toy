@@ -9,51 +9,46 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.infludeo.presentation.PokemonAppState
-import com.example.infludeo.presentation.lock.ReceiverService
+import com.example.infludeo.presentation.common.util.showToast
+import com.example.infludeo.presentation.lock.LockScreenService
 
 @Composable
 fun ServiceScreen(appState: PokemonAppState) {
     val context = LocalContext.current
-    val intent = Intent(context, ReceiverService::class.java)
+    val lockScreenServiceIntent = remember { Intent(context, LockScreenService::class.java) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+    ) {
         Spacer(modifier = Modifier.height(100.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             CustomButton(
-                text = "잠금화면 ON",
+                text = "서비스 ON",
                 color = Color.Blue,
-                onClick = { },
+                onClick = {
+                    context.startForegroundService(lockScreenServiceIntent)
+                    showToast("잠금화면을 시작합니다.", context)
+                },
             )
-
             CustomButton(
-                text = "잠금화면 OFF",
+                text = "서비스 OFF",
                 color = Color.Red,
-                onClick = { },
+                onClick = {
+                    context.stopService(lockScreenServiceIntent)
+                    showToast("잠금화면을 종료합니다.", context)
+                },
             )
         }
         Spacer(modifier = Modifier.height(100.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-        ) {
-            CustomButton(
-                text = "만보기 ON",
-                color = Color.Blue,
-                onClick = { },
-            )
-            CustomButton(
-                text = "만보기 OFF",
-                color = Color.Red,
-                onClick = { },
-            )
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bingtoy.study.collections
+package com.example.study.collections
 
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.maps.shouldContain

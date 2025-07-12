@@ -1,4 +1,4 @@
-package com.example.bingtoy.study.coroutines.coroutineScope
+package com.example.study.coroutines.coroutineScope
 
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue

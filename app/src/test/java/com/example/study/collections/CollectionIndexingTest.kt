@@ -1,4 +1,4 @@
-package com.example.bingtoy.study.collections
+package com.example.study.collections
 
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test

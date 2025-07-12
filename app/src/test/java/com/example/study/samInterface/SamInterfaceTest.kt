@@ -1,4 +1,4 @@
-package com.example.bingtoy.study.samInterface
+package com.example.study.samInterface
 
 import org.junit.Test
 

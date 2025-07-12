@@ -1,4 +1,4 @@
-package com.example.bingtoy.study.coroutines.job
+package com.example.study.coroutines.job
 
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.CoroutineExceptionHandler

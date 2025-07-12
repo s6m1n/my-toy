@@ -1,4 +1,4 @@
-package com.example.bingtoy.study.coroutines.sharedResource
+package com.example.study.coroutines.sharedResource
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

@@ -1,4 +1,4 @@
-package com.example.bingtoy.study.coroutines.flow
+package com.example.study.coroutines.flow
 
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay

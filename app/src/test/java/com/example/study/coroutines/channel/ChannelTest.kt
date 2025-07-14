@@ -124,52 +124,57 @@ class ChannelTest {
             }
 
             // 동시에 3개의 수신 코루틴 실행
-            val receivers = List(3) {
-                launch {
-                    val value = channel.receive()
-                    result.add(value)
+            val receivers =
+                List(3) {
+                    launch {
+                        val value = channel.receive()
+                        result.add(value)
+                    }
                 }
-            }
             receivers.joinAll()
             result.sorted() shouldBe listOf(1, 2, 3)
         }
 
     @Test
-    fun `produce는 값을 다 보내면 채널을 닫는다`() = runTest {
-        val channel: ReceiveChannel<Int> = produce {
-            for (i in 0..5) {
-                send(i)
-                println("$i 보냄")
-            }
-        }
-        launch {
-            try {
-                while (true) {
-                    println("${channel.receive()} 받음")
+    fun `produce는 값을 다 보내면 채널을 닫는다`() =
+        runTest {
+            val channel: ReceiveChannel<Int> =
+                produce {
+                    for (i in 0..5) {
+                        send(i)
+                        println("$i 보냄")
+                    }
                 }
-            } catch (e: Exception) {
-                println("채널 종료 예외 : ${e.message}")
+            launch {
+                try {
+                    while (true) {
+                        println("${channel.receive()} 받음")
+                    }
+                } catch (e: Exception) {
+                    println("채널 종료 예외 : ${e.message}")
+                }
             }
         }
-    }
 
     @Test
-    fun `for, consumeEach는 채널이 닫히기 전까지 값을 받는다`() = runTest {
-        val channel: ReceiveChannel<Int> =
-            produce { // 모든 값을 보내면 채널을 close
-                for (i in 0..10) {
-                    send(i);println("$i 보냄")
+    fun `for, consumeEach는 채널이 닫히기 전까지 값을 받는다`() =
+        runTest {
+            val channel: ReceiveChannel<Int> =
+                produce { // 모든 값을 보내면 채널을 close
+                    for (i in 0..10) {
+                        send(i)
+                        println("$i 보냄")
+                    }
+                }
+            launch {
+                channel.consumeEach { // 채널이 닫히기 전까지 값 수신
+                    println("consumeEach로 $it 받음")
                 }
             }
-        launch {
-            channel.consumeEach { // 채널이 닫히기 전까지 값 수신
-                println("consumeEach로 $it 받음")
+            launch {
+                for (i in channel) { // 채널이 닫히기 전까지 값 수신
+                    println("for로 $i 받음")
+                }
             }
         }
-        launch {
-            for (i in channel) { // 채널이 닫히기 전까지 값 수신
-                println("for로 $i 받음")
-            }
-        }
-    }
 }

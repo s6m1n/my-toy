@@ -9,19 +9,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.bingtoy.presentation.common.util.showToast
-import com.example.bingtoy.presentation.lock.LockScreenService
 
 @Composable
-fun ServiceScreen() {
+fun ServiceScreenWrapper(lockScreenServiceIntent: Intent) {
     val context = LocalContext.current
-    val lockScreenServiceIntent = remember { Intent(context, LockScreenService::class.java) }
+    ServiceScreen(
+        onLockScreenStart = {
+            context.startForegroundService(lockScreenServiceIntent)
+            showToast("잠금화면을 시작합니다.", context)
+        },
+        onLockScreenStop = {
+            context.stopService(lockScreenServiceIntent)
+            showToast("잠금화면을 종료합니다.", context)
+        },
+    )
+}
 
+@Composable
+private fun ServiceScreen(
+    onLockScreenStart: () -> Unit,
+    onLockScreenStop: () -> Unit,
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -34,18 +47,12 @@ fun ServiceScreen() {
             CustomButton(
                 text = "서비스 ON",
                 color = Color.Blue,
-                onClick = {
-                    context.startForegroundService(lockScreenServiceIntent)
-                    showToast("잠금화면을 시작합니다.", context)
-                },
+                onClick = onLockScreenStart,
             )
             CustomButton(
                 text = "서비스 OFF",
                 color = Color.Red,
-                onClick = {
-                    context.stopService(lockScreenServiceIntent)
-                    showToast("잠금화면을 종료합니다.", context)
-                },
+                onClick = onLockScreenStop,
             )
         }
         Spacer(modifier = Modifier.height(100.dp))

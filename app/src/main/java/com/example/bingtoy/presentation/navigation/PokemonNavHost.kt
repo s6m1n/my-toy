@@ -1,12 +1,15 @@
 package com.example.bingtoy.presentation.navigation
 
+import android.content.Intent
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,7 +22,8 @@ import com.example.bingtoy.presentation.detail.PokemonDetailViewModel
 import com.example.bingtoy.presentation.favoritedetail.PokemonFavoriteDetailScreen
 import com.example.bingtoy.presentation.favoritedetail.PokemonFavoriteScreen
 import com.example.bingtoy.presentation.list.PokemonListScreen
-import com.example.bingtoy.presentation.service.ServiceScreen
+import com.example.bingtoy.presentation.lock.LockScreenService
+import com.example.bingtoy.presentation.service.ServiceScreenWrapper
 import com.example.bingtoy.presentation.socket.SocketScreen
 
 @Composable
@@ -80,8 +84,22 @@ fun PokemonNavHost(
             startDestination = NavScreen.Service.route,
         ) {
             composable(NavScreen.Service.route) {
-                ServiceScreen()
+                val context = LocalContext.current
+                val lockScreenServiceIntent =
+                    remember { Intent(context, LockScreenService::class.java) }
+                ServiceScreenWrapper(lockScreenServiceIntent)
             }
         }
     }
 }
+
+// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//    if (!alarmManager.canScheduleExactAlarms()) {
+//        // 사용자 설정 화면으로 이동 유도
+//        val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+//        intent.data = Uri.parse("package:$packageName")
+//        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+//        return
+//    }
+// }

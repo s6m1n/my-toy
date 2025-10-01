@@ -15,14 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object WebsocketModule {
-    @Provides
-    @Named("echo")
-    fun provideEchoWebSocket(
-        @Named("websocket") okHttpClient: OkHttpClient,
-        @Named("echo") request: Request,
-        listener: EchoWebSocketListener,
-    ): WebSocket = okHttpClient.newWebSocket(request, listener) // 수정
-
     @Singleton
     @Provides
     @Named("echo")
@@ -33,16 +25,12 @@ internal object WebsocketModule {
 
     @Singleton
     @Provides
-    fun provideEchoWebSocketListener(): EchoWebSocketListener = EchoWebSocketListener()
-
-    @Singleton
-    @Provides
-    @Named("upbeat")
-    fun provideUpbeatWebSocket(
-        @Named("websocket") okHttpClient: OkHttpClient,
-        @Named("upbeat") request: Request,
-        listener: UpbeatWebSocketListener,
-    ): WebSocket = okHttpClient.newWebSocket(request, listener) // 수정
+    @Named("echo")
+    fun provideEchoWebSocket(
+        @Named("WebSocketClient") okHttpClient: OkHttpClient,
+        @Named("echo") request: Request,
+        listener: EchoWebSocketListener,
+    ): WebSocket = okHttpClient.newWebSocket(request, listener)
 
     @Singleton
     @Provides
@@ -54,8 +42,13 @@ internal object WebsocketModule {
 
     @Singleton
     @Provides
-    fun provideUpbeatWebSocketListener(): UpbeatWebSocketListener = UpbeatWebSocketListener()
+    @Named("upbeat")
+    fun provideUpbeatWebSocket(
+        @Named("WebSocketClient") okHttpClient: OkHttpClient,
+        @Named("upbeat") request: Request,
+        listener: UpbeatWebSocketListener,
+    ): WebSocket = okHttpClient.newWebSocket(request, listener) // 수정
 
-    private const val ECHO_URL = "wss://echo.websocket.events"
+    const val ECHO_URL = "wss://echo.websocket.org"
     private const val UPBEAT_URL = "wss://api.upbit.com/websocket/v1"
 }

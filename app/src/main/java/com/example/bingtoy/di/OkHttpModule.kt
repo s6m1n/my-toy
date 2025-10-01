@@ -15,8 +15,11 @@ import javax.inject.Singleton
 internal object OkHttpModule {
     @Singleton
     @Provides
-    @Named("retrofit")
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+
+    @Singleton
+    @Provides
+    fun provideBaseOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -27,16 +30,10 @@ internal object OkHttpModule {
 
     @Singleton
     @Provides
-    @Named("websocket")
-    fun provideWebSocketOkHttp(
-        @Named("retrofit") base: OkHttpClient,
-    ): OkHttpClient =
+    @Named("WebSocketClient")
+    fun provideWebSocketOkHttpClient(base: OkHttpClient): OkHttpClient =
         base.newBuilder()
             .readTimeout(0, TimeUnit.MILLISECONDS) // 무한대
             .pingInterval(30, TimeUnit.SECONDS) // keep-alive
             .build()
-
-    @Singleton
-    @Provides
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 }

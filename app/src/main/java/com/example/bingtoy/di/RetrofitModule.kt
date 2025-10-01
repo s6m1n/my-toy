@@ -10,7 +10,6 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -20,7 +19,7 @@ object RetrofitModule {
     @Provides
     fun provideRetrofit(
         json: Json,
-        @Named("retrofit") okHttpClient: OkHttpClient,
+        okHttpClient: OkHttpClient,
     ): Retrofit {
         val contentType = CONTENT_TYPE.toMediaType()
         return Retrofit.Builder()

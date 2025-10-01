@@ -1,20 +1,15 @@
 package com.example.bingtoy.di
 
-import com.example.bingtoy.data.repository.EchoRepositoryImpl
-import com.example.bingtoy.domain.repository.EchoRepository
 import com.example.bingtoy.domain.repository.PokemonDefaultRepository
 import com.example.bingtoy.domain.repository.PokemonRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
     @Binds
     abstract fun bindPokemonRepository(repositoryImpl: PokemonDefaultRepository): PokemonRepository
-
-    @Binds
-    abstract fun bindEchoRepository(repositoryImpl: EchoRepositoryImpl): EchoRepository
 }

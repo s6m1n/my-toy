@@ -2,7 +2,7 @@ package com.example.bingtoy.presentation.socket
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bingtoy.domain.repository.EchoRepository
+import com.example.bingtoy.domain.repository.EchoDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,25 +13,26 @@ import javax.inject.Inject
 class SocketViewModel
     @Inject
     constructor(
-        private val echoRepository: EchoRepository,
+        private val echoDataSource: EchoDataSource,
     ) : ViewModel() {
         val messages: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
 
         init {
             viewModelScope.launch {
-                echoRepository.incoming.collect { newMessage ->
+                echoDataSource.connect()
+                echoDataSource.messages.collect { newMessage ->
                     messages.update { it + newMessage }
                 }
             }
         }
 
         override fun onCleared() {
-            echoRepository.close()
+            echoDataSource.close()
         }
 
         fun send(text: String) {
             viewModelScope.launch {
-                echoRepository.send(text)
+                echoDataSource.send(text)
             }
         }
     }

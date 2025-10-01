@@ -1,14 +1,15 @@
-package com.example.bingtoy.domain.repository
+package com.example.bingtoy.data.repository
 
 import com.example.bingtoy.data.local.PokemonDao
 import com.example.bingtoy.data.local.model.toDomain
 import com.example.bingtoy.data.local.model.toEntity
-import com.example.bingtoy.data.remote.PokemonApiService
+import com.example.bingtoy.data.remote.datasource.pokemon.PokemonApiService
 import com.example.bingtoy.data.remote.model.toDomain
 import com.example.bingtoy.domain.model.DeleteResult
 import com.example.bingtoy.domain.model.InsertResult
 import com.example.bingtoy.domain.model.PokemonDetail
 import com.example.bingtoy.domain.model.PokemonPage
+import com.example.bingtoy.domain.repository.PokemonRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class PokemonDefaultRepository
+class PokemonRepositoryImpl
     @Inject
     constructor(
         private val pokemonApiService: PokemonApiService,

@@ -1,4 +1,4 @@
-package com.example.bingtoy.data.remote
+package com.example.bingtoy.data.remote.datasource.echo
 
 import android.util.Log
 import com.example.bingtoy.di.ApplicationScope

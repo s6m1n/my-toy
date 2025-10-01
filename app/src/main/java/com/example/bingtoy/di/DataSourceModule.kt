@@ -1,7 +1,7 @@
 package com.example.bingtoy.di
 
-import com.example.bingtoy.data.repository.EchoDataSourceImpl
-import com.example.bingtoy.domain.repository.EchoDataSource
+import com.example.bingtoy.data.datasource.EchoDataSource
+import com.example.bingtoy.data.remote.datasource.echo.EchoDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

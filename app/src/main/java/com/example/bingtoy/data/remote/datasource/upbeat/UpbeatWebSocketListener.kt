@@ -1,4 +1,4 @@
-package com.example.bingtoy.data.remote
+package com.example.bingtoy.data.remote.datasource.upbeat
 
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope

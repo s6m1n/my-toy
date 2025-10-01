@@ -1,7 +1,7 @@
 package com.example.bingtoy.di
 
-import com.example.bingtoy.data.remote.EchoWebSocketListener
-import com.example.bingtoy.data.remote.UpbeatWebSocketListener
+import com.example.bingtoy.data.remote.datasource.echo.EchoWebSocketListener
+import com.example.bingtoy.data.remote.datasource.upbeat.UpbeatWebSocketListener
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

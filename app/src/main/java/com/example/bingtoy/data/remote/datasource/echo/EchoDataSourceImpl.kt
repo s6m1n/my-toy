@@ -1,7 +1,6 @@
-package com.example.bingtoy.data.repository
+package com.example.bingtoy.data.remote.datasource.echo
 
-import com.example.bingtoy.data.remote.EchoWebSocketListener
-import com.example.bingtoy.domain.repository.EchoDataSource
+import com.example.bingtoy.data.datasource.EchoDataSource
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket

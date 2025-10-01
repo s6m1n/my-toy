@@ -2,7 +2,7 @@ package com.example.bingtoy.presentation.socket
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bingtoy.domain.repository.EchoDataSource
+import com.example.bingtoy.data.datasource.EchoDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

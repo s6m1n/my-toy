@@ -1,4 +1,4 @@
-package com.example.bingtoy.data.remote
+package com.example.bingtoy.data.remote.datasource.pokemon
 
 import com.example.bingtoy.data.remote.model.PokemonDetailResponse
 import com.example.bingtoy.data.remote.model.PokemonPageResponse

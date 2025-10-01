@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bingtoy.data.CacheImageManager
+import com.example.bingtoy.data.local.CacheImageManager
 import com.example.bingtoy.domain.model.DeleteResult
 import com.example.bingtoy.domain.model.InsertResult
 import com.example.bingtoy.domain.repository.PokemonRepository

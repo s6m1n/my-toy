@@ -1,4 +1,4 @@
-package com.example.bingtoy.domain.repository
+package com.example.bingtoy.data.datasource
 
 import kotlinx.coroutines.flow.SharedFlow
 

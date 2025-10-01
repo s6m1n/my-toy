@@ -1,6 +1,6 @@
 package com.example.bingtoy.di
 
-import com.example.bingtoy.data.remote.PokemonApiService
+import com.example.bingtoy.data.remote.datasource.pokemon.PokemonApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

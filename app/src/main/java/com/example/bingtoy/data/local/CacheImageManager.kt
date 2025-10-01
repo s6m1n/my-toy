@@ -1,4 +1,4 @@
-package com.example.bingtoy.data
+package com.example.bingtoy.data.local
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -45,7 +45,7 @@ class PokemonListViewModel
                 pokemonRepository.getAllFavoritePokemon().collect { favoritePokemonDetailList ->
 
                     val favoriteIds = favoritePokemonDetailList.map { it.id }.toSet()
-                    _favoritePokemonList.emit(favoritePokemonDetailList)
+                    _favoritePokemonList.value = favoritePokemonDetailList
 
                     val currentList = _pokemonList.value.pokemons
                     val updatedList = currentList.map { it.copy(isFavorite = it.id in favoriteIds) }
